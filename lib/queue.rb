@@ -13,13 +13,11 @@ class EventQueue
 
   def find(input)
   	new_queue
-  	puts @the_queue
-  	puts ""
+  	@the_file = load_file ###might have a problem with multiple queues if the filename isn't the default
   	####check to make sure that input[0] is actually a header and if not then provide header options
   	@the_file.each do |line|
       if line[input[0].to_sym].downcase == input[1]
       	@the_queue.push(line)
-      	#puts "#{line}"
       end
   	end
     puts "Find done. #{@the_queue.count} results found. Use 'queue print' to view them."
@@ -41,7 +39,9 @@ if __FILE__ == $0
 	quely = EventQueue.new()
   quely.load_file
   command = "find first_name john".downcase.split(" ")
-  quely.find(command[1..-1])
+  10.times do
+    quely.find(command[1..-1])
+  end
 end
 
 #puts Dir.pwd   - shows your current directory
