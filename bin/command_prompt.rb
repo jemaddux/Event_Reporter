@@ -17,7 +17,7 @@ class CommandPrompt
       when "load" then @queue.load_file(command[1].to_s)
       when "help" then @help.help(command)
       when "queue" then run_queue(command)
-      when "find" then @queue.find(command)
+      when "find" then @queue.find(command[1..-1])
       when "esc" then break 
       else puts "Please enter a valid command. Enter 'help' for help or esc to exit."
       end
