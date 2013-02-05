@@ -14,10 +14,10 @@ class CommandPrompt
       puts "Enter your command:".color(:blue)
       command = gets.chomp.downcase.split(" ")
       case command[0]
-      when "load" then load_file(command[1].to_s)
-      when "help" then help(command)
-      when "queue" then run_queue(command)
-      when "find" then find(command)
+      when "load" then @queue.load_file(command[1].to_s)
+      when "help" then @help.help(command)
+      when "queue" then @queue.run_queue(command)
+      when "find" then @queue.find(command)
       when "esc" then break ##For some reason it takes two esc to break the loop.
       else puts "Please enter a valid command. Enter 'help' for help or esc to exit."
       end
@@ -73,7 +73,6 @@ class EventQueue
       #Not do substring matches, so a find first_name Mary does not find a record with first name "marybeth"
   end
   
-
   def load_file(filename="event_attendees.csv")
     begin
       contents = CSV.open ("static/"+filename.to_s), headers: true, header_converters: :symbol
@@ -83,7 +82,6 @@ class EventQueue
     end
     return contents    #erase any loaded data and parse the specified file.
   end
-  
 end
 
 class Help
@@ -93,7 +91,7 @@ class Help
       puts "The possible commands are: ".color(:red)
       puts "load <filename> -- help -- queue count -- queue clear -- queue print -- queue print by <attribute> -- queue save to <filename.csv> -- find <attribute> <criteria>"  
     else
-      long_help
+      long_help(input)
     end
     puts ""
   end
@@ -105,5 +103,16 @@ class Help
   end
 end  
 
-manager = CommandPrompt.new()
-manager.run
+if __FILE__ == $0
+  manager = CommandPrompt.new()
+  manager.run
+end
+
+
+
+
+
+
+
+
+
