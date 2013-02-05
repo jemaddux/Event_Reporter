@@ -49,7 +49,7 @@ class EventQueue
 
   def load_file(filename="event_attendees.csv")
     begin
-      @the_file = CSV.open ("../bin/"+filename.to_s), headers: true, header_converters: :symbol
+      @the_file = CSV.open("event_attendees.csv"), headers: true, header_converters: :symbol
       puts @the_file
     rescue
       puts "Could not find a file named #{filename.to_s}."
