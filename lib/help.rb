@@ -1,3 +1,5 @@
+require_relative 'command_prompt'
+
 class Help
   def help(input)
     #puts the input for some reason???
