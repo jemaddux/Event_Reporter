@@ -5,7 +5,8 @@ require 'csv'
 
 class CommandPrompt
   def initialize
-    @queue = Queue.new
+    @queue = EventQueue.new
+    @help = Help.new
   end
 
   def run
@@ -36,7 +37,8 @@ class CommandPrompt
       when "print" #"by <attribute>"
         #print the data sorted by the specified atribute like zipcode
       when "save" #"to <filename.csv>"
-        #Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.
+        #Export the current queue to the specified filename as a CSV. The file should should include data 
+        #and headers for last name, first name, email, zipcode, city, state, address, and phone number.
         #also make sure that the filename ends in csv
         #saves as output.csv if nothing is selected
       else
