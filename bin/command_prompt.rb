@@ -46,7 +46,7 @@ class CommandPrompt
 
 end
 
-class Queue
+class EventQueue
   def initialize
     @the_queue = []
   end
