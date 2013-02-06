@@ -30,8 +30,11 @@ class EventQueue
 
   def load(filename="event_attendees.csv")
     @file = []
+    if filename == nil
+      filename = "event_attendees.csv"
+    end
     contents = CSV.open ("lib/"+filename), headers: true, header_converters: :symbol
-    CSV.foreach("lib/event_attendees.csv") do |row|
+    CSV.foreach("lib/"+filename) do |row|
       entry = {}
       entry[:first_name] = row[2]
       entry[:last_name] = row[1]

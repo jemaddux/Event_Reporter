@@ -13,7 +13,7 @@ class EventReporter
       puts "Enter your command:"
       command = gets.chomp.downcase.split(" ")
       case command[0]
-      when "load" then @event_queue.load(command[1].to_s)
+      when "load" then @event_queue.load(command[1])
       when "help" then @help.help(command)
       when "queue" then run_queue(command)
       when "find" then @event_queue.find(command[1..-1])
