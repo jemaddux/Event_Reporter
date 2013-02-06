@@ -1,23 +1,22 @@
-require 'rainbow'
 require 'csv'
 require_relative '../lib/queue'
 require_relative '../lib/help'
 
 class CommandPrompt
   def initialize
-    @queue = EventQueue.new
+    @event_queue = EventQueue.new
     @help = Help.new
   end
 
   def run
     loop do 
-      puts "Enter your command:".color(:blue)
+      puts "Enter your command:"
       command = gets.chomp.downcase.split(" ")
       case command[0]
-      when "load" then @queue.load_file(command[1].to_s)
+      when "load" then @event_queue.load(command[1].to_s)
       when "help" then @help.help(command)
       when "queue" then run_queue(command)
-      when "find" then @queue.find(command[1..-1])
+      when "find" then @event_queue.find(command[1..-1])
       when "esc" then break 
       else puts "Please enter a valid command. Enter 'help' for help or esc to exit."
       end
@@ -28,19 +27,15 @@ class CommandPrompt
       command = input.split(" ")
       case command[1]
       when "count"  
-        #output how many records are in the current queue
+        @event_queue.count_q
       when "clear"
-        #clear the current queue
+        @event_queue.clear_q
       when "print"
-        #print out a tab-deliminated data table with a headerrow following this format:
-        #LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE
+        @event_queue.print_q
       when "print" #"by <attribute>"
         #print the data sorted by the specified atribute like zipcode
-      when "save" #"to <filename.csv>"
-        #Export the current queue to the specified filename as a CSV. The file should should include data 
-        #and headers for last name, first name, email, zipcode, city, state, address, and phone number.
-        #also make sure that the filename ends in csv
-        #saves as output.csv if nothing is selected
+      when "save" 
+        @event_queue.save_to_file(command[2])
       else
         #do nothing
       end

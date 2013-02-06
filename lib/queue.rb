@@ -1,4 +1,4 @@
-require_relative '../bin/command_prompt'
+require_relative '../bin/event_reporter'
 require 'csv'
 require 'rainbow'
 
@@ -41,6 +41,7 @@ class EventQueue
   end
 
   def load(filename="event_attendees.csv")
+    puts "in the load method"
     @file = []
     tempfile = CSV.open (Dir.pwd+"/"+filename), headers: true, header_converters: :symbol
     tempfile.each do |row|
@@ -55,7 +56,6 @@ class EventQueue
       entry[:zipcode] = row[:zipcode]
       @file.push(entry)
     end 
-    #puts @file
   end
 
   def print_q  #not done still need to really be @queue
