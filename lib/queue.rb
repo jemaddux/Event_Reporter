@@ -24,7 +24,7 @@ class EventQueue
     @queue = []
     key, query = input[0], input[1]
     @file.each do |y|
-      if y[key.to_sym].downcase.chomp(" ") == query.downcase
+      if y[key.to_sym].to_s.downcase.chomp(" ") == query.to_s.downcase
         @queue.push(y)
       end
     end
@@ -78,8 +78,6 @@ class EventQueue
   end
 
   def save_to_file(input="output.csv")
-    puts "in the save to file method"
-    puts "command is #{input}"
     if input[3] == nil
       filename = "output/output.csv"
     else
@@ -91,6 +89,7 @@ class EventQueue
         csv << [q[:last_name],q[:first_name],q[:email],q[:zipcode],q[:city],q[:state],q[:address],q[:phone]]
       end
     end   
+    puts "Your queue has been saved to file #{filename[6..-1]} in the output folder."
   end
   #last name, first name, email, zipcode, city, state, address, and phone number.
 
