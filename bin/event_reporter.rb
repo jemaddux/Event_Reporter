@@ -17,7 +17,7 @@ class EventReporter
       when "help" then @help.help(command)
       when "queue" then run_queue(command)
       when "find" then @event_queue.find(command[1..-1])
-      when "esc" then break 
+      when "esc","quit" then break 
       else puts "Please enter a valid command. Enter 'help' for help or esc to exit."
       end
     end  

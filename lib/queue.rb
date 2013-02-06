@@ -6,10 +6,7 @@ require 'rainbow'
 class EventQueue
   include Enumerable 
 
-  def initialize #int 1
-    @the_queue = [] #int 1
-    @the_file = [] #int 1
-    @keys = {id: 0, regdate: 1, first_name: 2, last_name: 3, email_address: 4, homephone: 5, street: 6, city: 7, state: 8, zipcode: 9} #int 1
+  def initialize 
     @queue = []
     @file = []
   end
@@ -38,9 +35,11 @@ class EventQueue
     if filename == nil
       filename = "event_attendees.csv"
     end
-    contents = CSV.open ("lib/"+filename), headers: true, header_converters: :symbol
-    CSV.foreach("lib/"+filename) do |row|
+    contents = CSV.open ("output/"+filename), headers: true, header_converters: :symbol
+    CSV.foreach("output/"+filename) do |row|
       entry = {}
+      entry[:id] = row[0]
+      entry[:regdate] = row[1]
       entry[:first_name] = row[2]
       entry[:last_name] = row[3]
       entry[:email] = row[4]
@@ -84,14 +83,13 @@ class EventQueue
       filename = "output/#{input[3]}"
     end
     CSV.open(filename, "w") do |csv|
-      csv << ["last_name","first_name","email","zipcode","city","state","address","phone"]
+      csv << ["id","regdate","first_name","last_name","email","phone","address","city","state","zipcode"]
       @queue.each do |q|
-        csv << [q[:last_name],q[:first_name],q[:email],q[:zipcode],q[:city],q[:state],q[:address],q[:phone]]
+        csv << [q[:id],q[:regdate],q[:first_name],q[:last_name],q[:email],q[:phone],q[:address],q[:city],q[:state],q[:zipcode]]
       end
     end   
     puts "Your queue has been saved to file #{filename[6..-1]} in the output folder."
   end
-  #last name, first name, email, zipcode, city, state, address, and phone number.
 
   def count_q
     puts ""
