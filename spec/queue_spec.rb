@@ -1,4 +1,7 @@
-require_relative 'queue'
+require_relative '../lib/queue'
+require 'csv'
+require 'spec_helper'
+require 'rainbow'
 
 describe Queue do
 	

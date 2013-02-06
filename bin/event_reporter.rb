@@ -26,14 +26,14 @@ class EventReporter
   def run_queue(input)
       command = input
       case command[1]
-      when "count"  
-        @event_queue.count_q
-      when "clear"
-        @event_queue.clear_q
+      when "count" then @event_queue.count_q
+      when "clear" then @event_queue.clear_q
       when "print"
-        @event_queue.print_q
-      when "print" #"by <attribute>"
-        #print the data sorted by the specified atribute like zipcode
+        if command[2] = "by"
+          @event_queue.print_by(command[3].to_s)
+        else
+          @event_queue.print_q
+        end
       when "save" 
         @event_queue.save_to_file(command[2])
       else
