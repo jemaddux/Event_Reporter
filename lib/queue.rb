@@ -81,28 +81,14 @@ class EventQueue
   end
 
   def save_to_file(filename="output.csv")
-        
-
-    # def make_letter(name,zipcode,phone_number)
-    #   form_letter ||= File.read "form_letter.erb.html"
-    #   legislators = legislators_for_zipcode(zipcode)
-    #   legislators.each do |x|
-    #     x.phone = formated_phone_number(x.phone)
-    #   end
-    #   template = ERB.new form_letter
-    #   results = template.result(binding)
-    # end
-
-    # def save_letter(name,id,zipcode,phone_number) 
-    #   Dir.mkdir("output") unless Dir.exists? "output"
-    #   filename = "output/thanks_#{id}.html"
-    #   File.open(filename,'w') do |file|
-    #     file.puts make_letter(name,zipcode,phone_number)
-    #   end
-    #   puts "Made letter for #{name}."
-    # end
-    #last name, first name, email, zipcode, city, state, address, and phone number.   
+    CSV.open(filename, "w") do |csv|
+      csv << ["last_name","first_name","email","zipcode","city","state","address","phone"]
+      @queue.each do |q|
+        csv << [q[:last_name],q[:first_name],q[:email],q[:zipcode],q[:city],q[:state],q[:address],q[:phone]]
+      end
+    end   
   end
+  #last name, first name, email, zipcode, city, state, address, and phone number.
 
   def count_q
     puts ""
@@ -115,9 +101,8 @@ if __FILE__ == $0
   quely.load
   command = "find first_name John".split(" ")
   quely.find(command[1..-1])
-  #quely.print_q
-  #quely.count_q
   quely.queue_print_by("zipcode")
+  quely.save_to_file()
 end
 
 #puts Dir.pwd   - shows your current directory
