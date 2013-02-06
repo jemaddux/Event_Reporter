@@ -1,4 +1,4 @@
-require_relative '../bin/command_prompt'
+require_relative '../bin/event_reporter'
 
 describe Queue do
 	it "should put text when help is called" do

@@ -2,7 +2,7 @@ require 'csv'
 require_relative '../lib/queue'
 require_relative '../lib/help'
 
-class CommandPrompt
+class EventReporter
   def initialize
     @event_queue = EventQueue.new
     @help = Help.new
@@ -43,8 +43,8 @@ class CommandPrompt
 end
 
 if __FILE__ == $0
-  manager = CommandPrompt.new()
-  manager.run
+  reporter = EventReporter.new()
+  reporter.run
 end
 
 
