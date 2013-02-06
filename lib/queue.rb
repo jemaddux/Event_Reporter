@@ -2,27 +2,27 @@ require_relative '../bin/command_prompt'
 require 'csv'
 require 'rainbow'
 
+
 class EventQueue
+  include Enumerable 
+
   def initialize
-    @the_queue = new_queue
-    @the_file = []
-    @keys = {id: 0, regdate: 1, first_name: 2, last_name: 3, email_address: 4, homephone: 5, street: 6, city: 7, state: 8, zipcode: 9}
+    @the_queue = [] #int 1
+    @the_file = [] #int 1
+    @keys = {id: 0, regdate: 1, first_name: 2, last_name: 3, email_address: 4, homephone: 5, street: 6, city: 7, state: 8, zipcode: 9} #int 1
+    @queue = []
+    @file = []
   end
 
-  def new_queue
-  	@the_queue = []
-  end
-
-  def find(input)
-  	new_queue
-  	@the_file = load_file ###might have a problem with multiple queues if the filename isn't the default
-  	####check to make sure that input[0] is actually a header and if not then provide header options
-  	@the_file.each do |line|
-      if line[input[0].to_sym].downcase == input[1]
-      	@the_queue.push(line)
+  def find(input) 
+    key, query = input[0], input[1]
+    puts key
+    puts query
+    @file.each do |y|
+      if y[key.to_sym] == query
+        puts y
       end
-  	end
-    puts "Find done. #{@the_queue.count} results found. Use 'queue print' to view them."
+    end
   end
 
   def load_file(filename="event_attendees.csv")
@@ -37,28 +37,61 @@ class EventQueue
     end
   end
 
-  def print
-  	puts ""
-  	puts "LAST NAME\tFIRST NAME\tEMAIL\tZIPCODE\tCITY\tSTATE\tADDRESS\tPHONE"
-  	5.times do |x|
-      items2 = @the_queue[x].to_s.split(',')
-      items2.each {|x| puts x}
-      puts ""
-      # items2 = items.join(" ")
-      
-      #puts "#{items[:last_name]}\t#{items[:first_name]}\t#{items[:email_address]}\t#{items[:zipcode]}\t#{items[:city]}\t#{items[:state]}\t#{items[:street]}\t#{items[:homephone]}"
-      
-      # ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode
-  	end
-
-  	#  <--- tab delimited
+  def load(filename="event_attendees.csv")
+    @file = []
+    tempfile = CSV.open (Dir.pwd+"/"+filename), headers: true, header_converters: :symbol
+    tempfile.each do |row|
+      entry = {}
+      entry[:first_name] = row[:first_name]
+      entry[:last_name] = row[:last_name]
+      entry[:email] = row[:email_address]
+      entry[:phone] = row[:homephone]
+      entry[:address] = row[:street]
+      entry[:city] = row[:city]
+      entry[:state] = row[:state]
+      entry[:zipcode] = row[:zipcode]
+      @file.push(entry)
+    end 
+    #puts @file
   end
 
+  def print_q  #not done still need to really be @queue
+  	puts ""
+  	puts "LAST NAME\tFIRST NAME\tEMAIL\tZIPCODE\tCITY\tSTATE\tADDRESS\tPHONE"
+    @queue = @file
+    @queue.each do |x|
+      print "#{x[:last_name].ljust(15,".")}"
+      print "#{x[:first_name].ljust(15,".")}"
+      print "#{x[:email].ljust(45,".")}"
+      print "#{x[:zipcode]}\t"
+      print "#{x[:city]}\t"
+      print "#{x[:state]}\t"
+      print "#{x[:address]}\t"
+      puts "#{x[:phone]}\t"
+    end
+  end
 end
 
 if __FILE__ == $0
 	quely = EventQueue.new()
-  quely.load_file
+  quely.load
+  #quely.print_q
+  command = "find first_name John".split(" ")
+  quely.find(command[1..-1])
 end
 
 #puts Dir.pwd   - shows your current directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
