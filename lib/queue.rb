@@ -74,6 +74,11 @@ class EventQueue
     end
   end
 
+  def queue_print_by(input)
+    @queue = @queue.sort_by{|item| item[:zipcode].downcase}
+    print_q
+  end
+
   def count_q
     puts ""
     puts "There are #{@queue.count} items in your queue."
@@ -85,8 +90,9 @@ if __FILE__ == $0
   quely.load
   command = "find first_name John".split(" ")
   quely.find(command[1..-1])
-  quely.print_q
-  quely.count_q
+  #quely.print_q
+  #quely.count_q
+  quely.queue_print_by("123")
 end
 
 #puts Dir.pwd   - shows your current directory
