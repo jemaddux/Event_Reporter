@@ -75,8 +75,33 @@ class EventQueue
   end
 
   def queue_print_by(input)
-    @queue = @queue.sort_by{|item| item[:zipcode].downcase}
+    ##input is the attribute
+    @queue = @queue.sort_by{|item| item[input.downcase.to_sym].downcase}
     print_q
+  end
+
+  def save_to_file(filename="output.csv")
+        
+
+    # def make_letter(name,zipcode,phone_number)
+    #   form_letter ||= File.read "form_letter.erb.html"
+    #   legislators = legislators_for_zipcode(zipcode)
+    #   legislators.each do |x|
+    #     x.phone = formated_phone_number(x.phone)
+    #   end
+    #   template = ERB.new form_letter
+    #   results = template.result(binding)
+    # end
+
+    # def save_letter(name,id,zipcode,phone_number) 
+    #   Dir.mkdir("output") unless Dir.exists? "output"
+    #   filename = "output/thanks_#{id}.html"
+    #   File.open(filename,'w') do |file|
+    #     file.puts make_letter(name,zipcode,phone_number)
+    #   end
+    #   puts "Made letter for #{name}."
+    # end
+    #last name, first name, email, zipcode, city, state, address, and phone number.   
   end
 
   def count_q
@@ -92,7 +117,7 @@ if __FILE__ == $0
   quely.find(command[1..-1])
   #quely.print_q
   #quely.count_q
-  quely.queue_print_by("123")
+  quely.queue_print_by("zipcode")
 end
 
 #puts Dir.pwd   - shows your current directory
