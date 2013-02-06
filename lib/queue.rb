@@ -6,7 +6,7 @@ require 'rainbow'
 class EventQueue
   include Enumerable 
 
-  def initialize
+  def initialize #int 1
     @the_queue = [] #int 1
     @the_file = [] #int 1
     @keys = {id: 0, regdate: 1, first_name: 2, last_name: 3, email_address: 4, homephone: 5, street: 6, city: 7, state: 8, zipcode: 9} #int 1
@@ -14,13 +14,16 @@ class EventQueue
     @file = []
   end
 
+  def clear_q
+    @queue = []
+  end
+
   def find(input) 
+    @queue = []
     key, query = input[0], input[1]
-    puts key
-    puts query
     @file.each do |y|
       if y[key.to_sym] == query
-        puts y
+        @queue.push(y)
       end
     end
   end
@@ -58,7 +61,7 @@ class EventQueue
   def print_q  #not done still need to really be @queue
   	puts ""
   	puts "LAST NAME\tFIRST NAME\tEMAIL\tZIPCODE\tCITY\tSTATE\tADDRESS\tPHONE"
-    @queue = @file
+    #@queue = @file
     @queue.each do |x|
       print "#{x[:last_name].ljust(15,".")}"
       print "#{x[:first_name].ljust(15,".")}"
@@ -75,9 +78,9 @@ end
 if __FILE__ == $0
 	quely = EventQueue.new()
   quely.load
-  #quely.print_q
   command = "find first_name John".split(" ")
   quely.find(command[1..-1])
+  quely.print_q
 end
 
 #puts Dir.pwd   - shows your current directory
