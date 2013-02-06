@@ -35,7 +35,7 @@ class EventReporter
           @event_queue.print_q
         end
       when "save" 
-        @event_queue.save_to_file(command[2])
+        @event_queue.save_to_file(command)
       else
         puts "Please enter a valid command. Enter 'help' for help or esc to exit."
       end

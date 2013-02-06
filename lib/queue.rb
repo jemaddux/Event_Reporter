@@ -77,7 +77,14 @@ class EventQueue
     print_q
   end
 
-  def save_to_file(filename="output.csv")
+  def save_to_file(input="output.csv")
+    puts "in the save to file method"
+    puts "command is #{input}"
+    if input[3] == nil
+      filename = "output/output.csv"
+    else
+      filename = "output/#{input[3]}"
+    end
     CSV.open(filename, "w") do |csv|
       csv << ["last_name","first_name","email","zipcode","city","state","address","phone"]
       @queue.each do |q|
