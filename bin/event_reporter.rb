@@ -29,7 +29,7 @@ class EventReporter
       when "count" then @event_queue.count_q
       when "clear" then @event_queue.clear_q
       when "print"
-        if command[2] = "by"
+        if command[2] == "by" 
           @event_queue.print_by(command[3].to_s)
         else
           @event_queue.print_q
@@ -37,7 +37,7 @@ class EventReporter
       when "save" 
         @event_queue.save_to_file(command[2])
       else
-        #do nothing
+        puts "Please enter a valid command. Enter 'help' for help or esc to exit."
       end
   end
 end
