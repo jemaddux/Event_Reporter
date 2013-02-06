@@ -19,7 +19,12 @@ class EventQueue
 
   def find(input) 
     @queue = []
-    key, query = input[0], input[1]
+    if ((input.length > 2) && (input[0].downcase == "city"))
+      key = input[0]
+      query = input[1..-1].join(" ")
+    else
+      key, query = input[0], input[1]
+    end
     @file.each do |y|
       if y[key.to_sym].to_s.downcase.chomp(" ") == query.to_s.downcase
         @queue.push(y)
