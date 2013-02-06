@@ -63,15 +63,20 @@ class EventQueue
   	puts "LAST NAME\tFIRST NAME\tEMAIL\tZIPCODE\tCITY\tSTATE\tADDRESS\tPHONE"
     #@queue = @file
     @queue.each do |x|
-      print "#{x[:last_name].ljust(15,".")}"
-      print "#{x[:first_name].ljust(15,".")}"
-      print "#{x[:email].ljust(45,".")}"
-      print "#{x[:zipcode]}\t"
+      print "#{x[:last_name].ljust(15,".")}    "
+      print "#{x[:first_name].ljust(15,".")}    "
+      print "#{x[:email].ljust(45,".")}    "
+      print "#{x[:zipcode]}         \t"
       print "#{x[:city]}\t"
       print "#{x[:state]}\t"
       print "#{x[:address]}\t"
       puts "#{x[:phone]}\t"
     end
+  end
+
+  def count_q
+    puts ""
+    puts "There are #{@queue.count} items in your queue."
   end
 end
 
@@ -81,6 +86,7 @@ if __FILE__ == $0
   command = "find first_name John".split(" ")
   quely.find(command[1..-1])
   quely.print_q
+  quely.count_q
 end
 
 #puts Dir.pwd   - shows your current directory
