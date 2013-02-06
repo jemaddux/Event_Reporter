@@ -28,40 +28,29 @@ class EventQueue
     end
   end
 
-  def load_file(filename="event_attendees.csv")
-    begin
-    	puts Dir.pwd
-      temp_var = CSV.open filename, headers: false#, header_converters: :symbol
-      temp_var.each do |line|
-        @the_file.push(line)  
-      end
-    rescue
-    	#fail silently
-    end
-  end
-
   def load(filename="event_attendees.csv")
-    puts "in the load method"
     @file = []
-    tempfile = CSV.open (Dir.pwd+"/"+filename), headers: true, header_converters: :symbol
-    tempfile.each do |row|
+    contents = CSV.open ("lib/"+filename), headers: true, header_converters: :symbol
+    CSV.foreach("lib/event_attendees.csv") do |row|
       entry = {}
-      entry[:first_name] = row[:first_name]
-      entry[:last_name] = row[:last_name]
-      entry[:email] = row[:email_address]
-      entry[:phone] = row[:homephone]
-      entry[:address] = row[:street]
-      entry[:city] = row[:city]
-      entry[:state] = row[:state]
-      entry[:zipcode] = row[:zipcode]
+      entry[:first_name] = row[2]
+      entry[:last_name] = row[1]
+      entry[:email] = row[3]
+      entry[:phone] = row[4]
+      entry[:address] = row[5]
+      entry[:city] = row[6]
+      entry[:state] = row[7]
+      entry[:zipcode] = row[8]
       @file.push(entry)
     end 
+    @file = @file[1..-1]
+    puts "File loaded. #{@file.length} records loaded."
+    #,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode
   end
 
-  def print_q  #not done still need to really be @queue
+  def print_q
   	puts ""
   	puts "LAST NAME\tFIRST NAME\tEMAIL\tZIPCODE\tCITY\tSTATE\tADDRESS\tPHONE"
-    #@queue = @file
     @queue.each do |x|
       print "#{x[:last_name].ljust(15,".")}    "
       print "#{x[:first_name].ljust(15,".")}    "

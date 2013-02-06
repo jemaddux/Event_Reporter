@@ -24,7 +24,7 @@ class EventReporter
   end
 
   def run_queue(input)
-      command = input.split(" ")
+      command = input
       case command[1]
       when "count"  
         @event_queue.count_q
