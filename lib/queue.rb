@@ -14,7 +14,7 @@ class EventQueue
   def clear_q
     @queue = []
     puts "The queue is now empty."
-    puts count_q
+    count_q
   end
 
   def find(input) 
@@ -96,9 +96,14 @@ class EventQueue
     puts "Your queue has been saved to file #{filename[6..-1]} in the output folder."
   end
 
+  def return_queue
+    return @queue
+  end
+
   def count_q
     puts ""
     puts "There are #{@queue.count} items in your queue."
+    return @queue.count
   end
 end
 
