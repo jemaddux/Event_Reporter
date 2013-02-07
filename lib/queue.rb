@@ -60,18 +60,63 @@ class EventQueue
     #0,1-RegDate,2-first_Name,3-last_Name,4-Email_Address,5-HomePhone,6-Street,7-City,8-State,9-Zipcode
   end
 
+  def find_q_longest_size(attribute_as_symbol)
+    longest_size = 0
+    @queue.each_with_index do |x, i|
+      if (x[attribute_as_symbol].length > longest_size)
+        longest_size = x[attribute_as_symbol.to_sym].length
+      end
+    end
+    return longest_size
+  end
+
   def print_q
   	puts ""
-  	puts "LAST NAME\tFIRST NAME\tEMAIL\tZIPCODE\tCITY\tSTATE\tADDRESS\tPHONE"
-    @queue.each do |x|
-      print "#{x[:last_name]}\t"
-      print "#{x[:first_name]}\t"
-      print "#{x[:email]}\t"
-      print "#{x[:zipcode]}\t"
-      print "#{x[:city]}\t"
-      print "#{x[:state]}\t"
-      print "#{x[:address]}\t"
-      puts "#{x[:phone]}\t"
+    last_name_size = find_q_longest_size(:last_name)
+    r = find_q_longest_size(:first_name)
+    if r > 10
+      first_name_size = r
+    else
+      first_name_size = 11
+    end
+    email_size = find_q_longest_size(:email)
+    z = find_q_longest_size(:zipcode)
+    if z > 7
+      zipcode_size = z
+    else
+      zipcode_size = 7
+    end
+    city_size = find_q_longest_size(:city)
+    s = find_q_longest_size(:state)
+    if s > 5
+      state_size = s
+    else
+      state_size = 5
+    end
+    address_size = find_q_longest_size(:address)
+    phone_size = find_q_longest_size(:phone)
+
+  	puts "Last Name".ljust(last_name_size+2," ")+"First Name".ljust(first_name_size+2," ")+"Email".ljust(email_size+2," ")+"Zipcode".ljust(zipcode_size+2," ")+"City".ljust(city_size+2," ")+"State".ljust(state_size+2," ")+"Address".ljust(address_size+2," ")+"Phone".ljust(phone_size+2," ")
+    
+    @queue.each_with_index do |x, i|
+      print "#{x[:last_name].ljust(last_name_size+2," ")}"
+      print "#{x[:first_name].ljust(first_name_size+2," ")}"
+      print "#{x[:email].ljust(email_size+2," ")}"
+      print "#{x[:zipcode].ljust(zipcode_size+2," ")}"
+      print "#{x[:city].ljust(city_size+2," ")}"
+      print "#{x[:state].ljust(state_size+2," ")}"
+      print "#{x[:address].ljust(address_size+2," ")}"
+      puts "#{x[:phone].ljust(phone_size+2," ")}"
+      pause_me(i)
+    end
+  end
+
+  def pause_me(index)
+    if ((index%10 == 0) && (index != 0))
+      puts ""
+      puts "Showing Matches #{index-10} through #{index} of #{@queue.count}."
+      puts "Press Any Key to Contine:"
+      x = gets
     end
   end
 
