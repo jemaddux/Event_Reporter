@@ -19,17 +19,37 @@ class EventQueue
 
   def find(input) 
     @queue = []
+
     if ((input.length > 2) && (input[0].downcase == "city"))
-      key = input[0]
-      query = input[1..-1].join(" ")
+      key, query = input[0], input[1..-1].join(" ")
     else
       key, query = input[0], input[1]
     end
+
+
     @file.each do |y|
       if y[key.to_sym].to_s.downcase.chomp(" ") == query.to_s.downcase
         @queue.push(y)
       end
     end
+
+    if (input[2]=="and")
+      if ((input.length > 2) && (input[2].downcase == "city"))
+        key, query = input[2], input[3..-1].join(" ")
+      else
+        key, query = input[3], input[4]
+      end
+
+      temp_queue = @queue
+      @queue = []
+      temp_queue.each do |o|
+        if o[key.to_sym].to_s.downcase.chomp(" ") == query.to_s.downcase
+          @queue.push(o)
+        end
+      end
+    end
+
+
     count_q
     puts "All items added to queue for <attribute> #{key} and <criteria> #{query}."
     puts "Enter 'queue print' to see your queue."
@@ -115,7 +135,7 @@ class EventQueue
     if ((index%10 == 0) && (index != 0))
       puts ""
       puts "Showing Matches #{index-10} through #{index} of #{@queue.count}."
-      puts "Press Any Key to Contine:"
+      puts "Press Enter to Contine:"
       x = gets
     end
   end
@@ -155,7 +175,7 @@ end
 if __FILE__ == $0
 	quely = EventQueue.new()
   quely.load
-  command = "find first_name John".split(" ")
+  command = "find first_name John and city williamsburg".split(" ")
   quely.find(command[1..-1])
   quely.print_q
 #  quely.save_to_file()
