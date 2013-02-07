@@ -80,11 +80,11 @@ class EventQueue
     #0,1-RegDate,2-first_Name,3-last_Name,4-Email_Address,5-HomePhone,6-Street,7-City,8-State,9-Zipcode
   end
 
-  def find_q_longest_size(attribute_as_symbol)
+  def find_q_longest_size(attribute)
     longest_size = 0
-    @queue.each_with_index do |x, i|
-      if (x[attribute_as_symbol].length > longest_size)
-        longest_size = x[attribute_as_symbol.to_sym].length
+    @queue.each do |x|
+      if ((x[attribute.to_sym]).to_s.length > longest_size)
+        longest_size = x[attribute.to_sym].length
       end
     end
     return longest_size
@@ -119,15 +119,15 @@ class EventQueue
   	puts "Last Name".ljust(last_name_size+2," ")+"First Name".ljust(first_name_size+2," ")+"Email".ljust(email_size+2," ")+"Zipcode".ljust(zipcode_size+2," ")+"City".ljust(city_size+2," ")+"State".ljust(state_size+2," ")+"Address".ljust(address_size+2," ")+"Phone".ljust(phone_size+2," ")
     
     @queue.each_with_index do |x, i|
-      print "#{x[:last_name].ljust(last_name_size+2," ")}"
-      print "#{x[:first_name].ljust(first_name_size+2," ")}"
-      print "#{x[:email].ljust(email_size+2," ")}"
-      print "#{x[:zipcode].ljust(zipcode_size+2," ")}"
-      print "#{x[:city].ljust(city_size+2," ")}"
-      print "#{x[:state].ljust(state_size+2," ")}"
-      print "#{x[:address].ljust(address_size+2," ")}"
-      puts "#{x[:phone].ljust(phone_size+2," ")}"
       pause_me(i)
+      print "#{x[:last_name].to_s.ljust(last_name_size+2," ")}"
+      print "#{x[:first_name].to_s.ljust(first_name_size+2," ")}"
+      print "#{x[:email].to_s.ljust(email_size+2," ")}"
+      print "#{x[:zipcode].to_s.ljust(zipcode_size+2," ")}"
+      print "#{x[:city].to_s.ljust(city_size+2," ")}"
+      print "#{x[:state].to_s.ljust(state_size+2," ")}"
+      print "#{x[:address].to_s.ljust(address_size+2," ")}"
+      puts "#{x[:phone].to_s.ljust(phone_size+2," ")}"
     end
   end
 
