@@ -1,16 +1,13 @@
 require "spec_helper"
 
-describe EventQueue do
+describe Help do
 	before :each do
-    @queue = EventQueue.new
+    @help = Help.new
 	end
 
 	describe "#new" do
     it "takes zero parameters and returns a Help object" do
-    	@queue.should be_an_instance_of EventQueue
+    	@help.should be_an_instance_of Help
     end
   end
-
-  
-
 end
