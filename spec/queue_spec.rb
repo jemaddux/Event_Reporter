@@ -9,7 +9,7 @@ describe EventQueue do
 	end
 
 	context "#new" do
-    it "takes zero parameters and returns a Help object" do
+    it "takes zero parameters and returns a EventQueue object" do
     	@event_queue.should be_an_instance_of EventQueue
     end
   end

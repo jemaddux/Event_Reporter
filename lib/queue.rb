@@ -152,13 +152,17 @@ class EventQueue
     else
       filename = "output/#{input[3]}"
     end
+    save_CSV(filename)
+    puts "Your queue has been saved to file #{filename[6..-1]} in the output folder."
+  end
+
+  def save_CSV(filename)
     CSV.open(filename, "w") do |csv|
       csv << ["id","regdate","first_name","last_name","email","phone","address","city","state","zipcode"]
       @queue.each do |q|
         csv << [q[:id],q[:regdate],q[:first_name],q[:last_name],q[:email],q[:phone],q[:address],q[:city],q[:state],q[:zipcode]]
       end
-    end   
-    puts "Your queue has been saved to file #{filename[6..-1]} in the output folder."
+    end 
   end
 
   def return_queue
@@ -178,7 +182,8 @@ if __FILE__ == $0
   command = "find first_name John and city williamsburg".split(" ")
   quely.find(command[1..-1])
   quely.print_q
-#  quely.save_to_file()
+  command2 = 'queue save to empty.csv'.split(" ")
+  quely.save_to_file(command2)
 end
 
 #puts Dir.pwd   - shows your current directory
