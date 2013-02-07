@@ -52,7 +52,7 @@ class EventQueue
 
     count_q
     puts "All items added to queue for <attribute> #{key} and <criteria> #{query}."
-    puts "Enter 'queue print' to see your queue."
+    puts "Enter 'queue print' to see your queue."   
   end
 
   def load(filename="event_attendees.csv")
