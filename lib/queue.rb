@@ -48,10 +48,12 @@ class EventQueue
         end
       end
     end
+    print_find(key,query)
+  end
 
-
+  def print_find(key,query)
     count_q
-    puts "All items added to queue for <attribute> #{key} and <criteria> #{query}."
+    puts "Items added to queue for <attribute> #{key} and <criteria> #{query}."
     puts "Enter 'queue print' to see your queue."   
   end
 
@@ -60,24 +62,21 @@ class EventQueue
     if filename == nil
       filename = "event_attendees.csv"
     end
-    contents = CSV.open ("output/"+filename), headers: true, header_converters: :symbol
-    CSV.foreach("output/"+filename) do |row|
-      entry = {}
-      entry[:id] = row[0]
-      entry[:regdate] = row[1]
-      entry[:first_name] = row[2]
-      entry[:last_name] = row[3]
-      entry[:email] = row[4]
-      entry[:phone] = row[5]
-      entry[:address] = row[6]
-      entry[:city] = row[7]
-      entry[:state] = row[8]
-      entry[:zipcode] = row[9]
-      @file.push(entry)
-    end 
+    csv_open(filename)
     @file = @file[1..-1]
     puts "File loaded. #{@file.length} records loaded."
-    #0,1-RegDate,2-first_Name,3-last_Name,4-Email_Address,5-HomePhone,6-Street,7-City,8-State,9-Zipcode
+  end
+
+  def csv_open(filename)
+    CSV.foreach("output/"+filename) do |row|
+      entry = {}
+      entry[:id], entry[:regdate] = row[0], row[1]
+      entry[:first_name], entry[:last_name] = row[2], row[3]
+      entry[:email], entry[:phone] = row[4], row[5]
+      entry[:address], entry[:city] = row[6], row[7]
+      entry[:state], entry[:zipcode] = row[8], row[9]
+      @file.push(entry)
+    end 
   end
 
   def find_q_longest_size(attribute)
@@ -116,7 +115,11 @@ class EventQueue
     address_size = find_q_longest_size(:address)
     phone_size = find_q_longest_size(:phone)
 
-  	puts "Last Name".ljust(last_name_size+2," ")+"First Name".ljust(first_name_size+2," ")+"Email".ljust(email_size+2," ")+"Zipcode".ljust(zipcode_size+2," ")+"City".ljust(city_size+2," ")+"State".ljust(state_size+2," ")+"Address".ljust(address_size+2," ")+"Phone".ljust(phone_size+2," ")
+  	print "Last Name".ljust(last_name_size+2," ")
+    print "First Name".ljust(first_name_size+2," ")
+    print "Email".ljust(email_size+2," ")+"Zipcode".ljust(zipcode_size+2," ")
+    print "City".ljust(city_size+2," ")+"State".ljust(state_size+2," ")
+    puts "Address".ljust(address_size+2," ")+"Phone".ljust(phone_size+2," ")
     
     @queue.each_with_index do |x, i|
       pause_me(i)
@@ -141,7 +144,6 @@ class EventQueue
   end
 
   def print_by(input)
-    ##input is the attribute
     @queue = @queue.sort_by{|item| item[input.downcase.to_sym].downcase}
     print_q
   end
@@ -153,14 +155,16 @@ class EventQueue
       filename = "output/#{input[3]}"
     end
     save_CSV(filename)
-    puts "Your queue has been saved to file #{filename[6..-1]} in the output folder."
+    puts "File #{filename[6..-1]} saved in the output folder."
   end
 
   def save_CSV(filename)
     CSV.open(filename, "w") do |csv|
-      csv << ["id","regdate","first_name","last_name","email","phone","address","city","state","zipcode"]
+      csv << ["id","regdate","first_name","last_name",
+        "email","phone","address","city","state","zipcode"]
       @queue.each do |q|
-        csv << [q[:id],q[:regdate],q[:first_name],q[:last_name],q[:email],q[:phone],q[:address],q[:city],q[:state],q[:zipcode]]
+        csv << [q[:id],q[:regdate],q[:first_name],q[:last_name],
+        q[:email],q[:phone],q[:address],q[:city],q[:state],q[:zipcode]]
       end
     end 
   end
@@ -186,7 +190,6 @@ if __FILE__ == $0
   quely.save_to_file(command2)
 end
 
-#puts Dir.pwd   - shows your current directory
 
 
 
