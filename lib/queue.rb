@@ -93,13 +93,15 @@ class EventQueue
   end
 
   def csv_open(filename)
+    headers = [:id, :regdate, :first_name, :last_name, :email,
+      :phone, :address, :city, :state, :zipcode]
+    keys = {id: 0, regdate: 1, first_name: 2, last_name: 3, email: 4, 
+      phone: 5, address: 6, city: 7, state: 8, zipcode: 9}
     CSV.foreach("output/"+filename) do |row|
       entry = {}
-      entry[:id], entry[:regdate] = row[0], row[1]
-      entry[:first_name], entry[:last_name] = row[2], row[3]
-      entry[:email], entry[:phone] = row[4], row[5]
-      entry[:address], entry[:city] = row[6], row[7]
-      entry[:state], entry[:zipcode] = row[8], row[9]
+      headers.each do |head|
+        entry[head] = row[keys[head]]
+      end
       @file.push(entry)
     end 
   end
