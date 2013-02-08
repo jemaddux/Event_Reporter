@@ -1,4 +1,5 @@
 require_relative '../bin/event_reporter'
+require_relative '../lib/load'
 require 'csv'
 require 'rainbow'
 
@@ -83,27 +84,9 @@ class EventQueue
   end
 
   def load(filename="event_attendees.csv")
-    @file = []
-    if filename == nil
-      filename = "event_attendees.csv"
-    end
-    csv_open(filename)
-    @file = @file[1..-1]
-    puts "File loaded. #{@file.length} records loaded."
-  end
-
-  def csv_open(filename)
-    headers = [:id, :regdate, :first_name, :last_name, :email,
-      :phone, :address, :city, :state, :zipcode]
-    keys = {id: 0, regdate: 1, first_name: 2, last_name: 3, email: 4, 
-      phone: 5, address: 6, city: 7, state: 8, zipcode: 9}
-    CSV.foreach("output/"+filename) do |row|
-      entry = {}
-      headers.each do |head|
-        entry[head] = row[keys[head]]
-      end
-      @file.push(entry)
-    end 
+    loader = LoadQueue.new
+    loader.load(filename)
+    @file = loader.return_file
   end
 
   def find_q_longest_size(attribute)
@@ -215,18 +198,4 @@ if __FILE__ == $0
   #command2 = 'queue save to empty.csv'.split(" ")
   #quely.save_to_file(command2)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
