@@ -49,6 +49,7 @@ class EventQueue
       end
     end
     print_find(key,query)
+    puts ""
   end
 
   def print_find(key,query)
@@ -89,49 +90,48 @@ class EventQueue
     return longest_size
   end
 
-  def print_q
-  	puts ""
-    last_name_size = find_q_longest_size(:last_name)
-    r = find_q_longest_size(:first_name)
-    if r > 10
-      first_name_size = r
-    else
-      first_name_size = 11
+  def get_all_long_sizes(attr_array)
+    size_hash = {}
+    attr_array.each do |attr|
+      size_hash[attr] = find_q_longest_size(attr)
     end
-    email_size = find_q_longest_size(:email)
-    z = find_q_longest_size(:zipcode)
-    if z > 7
-      zipcode_size = z
-    else
-      zipcode_size = 7
-    end
-    city_size = find_q_longest_size(:city)
-    s = find_q_longest_size(:state)
-    if s > 5
-      state_size = s
-    else
-      state_size = 5
-    end
-    address_size = find_q_longest_size(:address)
-    phone_size = find_q_longest_size(:phone)
+    return size_hash
+  end
 
-  	print "Last Name".ljust(last_name_size+2," ")
-    print "First Name".ljust(first_name_size+2," ")
-    print "Email".ljust(email_size+2," ")+"Zipcode".ljust(zipcode_size+2," ")
-    print "City".ljust(city_size+2," ")+"State".ljust(state_size+2," ")
-    puts "Address".ljust(address_size+2," ")+"Phone".ljust(phone_size+2," ")
-    
+  def size_hash_mins(size_hash,attr_array)
+    min_sizes = {:first_name=>10, :last_name=>9, :email=>5, :zipcode=>7,
+     :city=>4, :state=>5, :address=>7, :phone=>5}
+    attr_array.each do |attr|
+      if min_sizes[attr] > size_hash[attr]
+        size_hash[attr] = min_sizes[attr]
+      end
+    end
+    return size_hash
+  end
+
+  def print_header(attr_array,size_hash)
+    attr_array.each do |attr|
+      print "#{attr.to_s.split("_").join(" ").capitalize}".ljust(size_hash[attr]+3," ")
+    end
+    puts ""
+  end
+
+  def print_q_body(attr_array,size_hash)
     @queue.each_with_index do |x, i|
       pause_me(i)
-      print "#{x[:last_name].to_s.ljust(last_name_size+2," ")}"
-      print "#{x[:first_name].to_s.ljust(first_name_size+2," ")}"
-      print "#{x[:email].to_s.ljust(email_size+2," ")}"
-      print "#{x[:zipcode].to_s.ljust(zipcode_size+2," ")}"
-      print "#{x[:city].to_s.ljust(city_size+2," ")}"
-      print "#{x[:state].to_s.ljust(state_size+2," ")}"
-      print "#{x[:address].to_s.ljust(address_size+2," ")}"
-      puts "#{x[:phone].to_s.ljust(phone_size+2," ")}"
+      attr_array.each do |attr|
+        print "#{x[attr]}".ljust(size_hash[attr]+3," ")
+      end
+      puts ""
     end
+  end
+
+  def print_q
+    attr_array = [:first_name, :last_name, :email, :zipcode, :city, :state, :address, :phone]
+  	size_hash = get_all_long_sizes(attr_array)
+    size_hash = size_hash_mins(size_hash,attr_array)
+    print_header(attr_array,size_hash)
+    print_q_body(attr_array,size_hash)
   end
 
   def pause_me(index)
@@ -183,11 +183,11 @@ end
 if __FILE__ == $0
 	quely = EventQueue.new()
   quely.load
-  command = "find first_name John and city williamsburg".split(" ")
+  command = "find first_name John and state GA".split(" ")
   quely.find(command[1..-1])
   quely.print_q
-  command2 = 'queue save to empty.csv'.split(" ")
-  quely.save_to_file(command2)
+  #command2 = 'queue save to empty.csv'.split(" ")
+  #quely.save_to_file(command2)
 end
 
 
